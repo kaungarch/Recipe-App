@@ -7,7 +7,7 @@ type SearchParams = { [key: string]: string | undefined }
 
 export default async function Home({searchParams}: { searchParams: SearchParams }) {
 
-    const skip = searchParams.skip? parseInt(searchParams.skip) : 10;
+    const skip = searchParams.skip? parseInt(searchParams.skip) : 0;
 
     const response = await instance.get(`/recipes?limit=${10}&skip=${skip}`);
 
