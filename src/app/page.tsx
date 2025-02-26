@@ -1,7 +1,7 @@
+import {redirect} from "next/navigation";
+
 const page = () => {
-    return (
-        <div>
-            hello
-        </div>
-    )
+   return redirect('/recipes');
 }
+
+export default page;
