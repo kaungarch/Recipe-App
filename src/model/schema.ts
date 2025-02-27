@@ -27,4 +27,5 @@ export type RESULT = {
     recipes: RECIPE[],
     skip: number,
     total: number,
+    limit: number
 }

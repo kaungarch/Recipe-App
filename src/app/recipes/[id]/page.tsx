@@ -65,7 +65,7 @@ const page = async ({params}: Props) => {
                     {/* tags */}
                     <div className='flex flex-wrap gap-x-2'>
                         <div>
-                            <p>Tags:</p>k
+                            <p>Tags:</p>
                         </div>
                         <div className='flex flex-wrap gap-x-2'><Tags tags={recipe.tags}/></div>
                     </div>
