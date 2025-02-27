@@ -1,6 +1,5 @@
 'use client'
 import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
 import {AspectRatio} from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,12 +35,12 @@ export const NavBar = () => {
 
             <div className={'relative flex items-center gap-x-3'}>
                 <Search className='w-4 h-4 sm:w-5 sm:h-5 text-gray-400 absolute left-1 top-2.5 sm:top-3.5'/>
-                <Input
-                    className='bg-white border border-zinc-300 placeholder:text-gray-400 rounded-lg w-52 sm:w-72 pl-7 text-xs sm:text-sm'
-                    placeholder='Search more recipes'
-                    onChange={e => handleSearch(e.target.value)}
-                    defaultValue={searchParams.get("query") as string}
-                />
+                    <Input
+                        className='bg-white border border-zinc-300 placeholder:text-gray-400 rounded-lg w-52 sm:w-72 pl-7 text-xs sm:text-sm'
+                        placeholder='Search more recipes'
+                        onChange={e => handleSearch(e.target.value)}
+                        defaultValue={searchParams.get("query") as string}
+                    />
             </div>
 
         </nav>

@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import {Geist, Geist_Mono, Poppins} from "next/font/google";
 import "./globals.css";
 import {NavBar} from "@/components/NavBar";
+import {Suspense} from "react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -37,7 +38,7 @@ export default function RootLayout({
         <body
             className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
         >
-        <NavBar/>
+        <Suspense><NavBar/></Suspense>
         {children}
         </body>
         </html>
