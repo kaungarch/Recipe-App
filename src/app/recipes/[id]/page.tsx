@@ -63,8 +63,11 @@ const page = async ({params}: Props) => {
                 </div>
                 <div className='flex flex-col gap-y-3'>
                     {/* tags */}
-                    <div className='flex gap-x-1'>
-                        <Tags tags={recipe.tags}/>
+                    <div className='flex flex-wrap gap-x-2'>
+                        <div>
+                            <p>Tags:</p>k
+                        </div>
+                        <div className='flex flex-wrap gap-x-2'><Tags tags={recipe.tags}/></div>
                     </div>
                     {/* instructions */}
                     <ScrollArea
@@ -125,8 +128,8 @@ const Icon = ({title, icon, value}: {
 const Tags = ({tags}: { tags: string[] }) => {
 
     return tags.map((tag, i) => (
-        <Link href={`/recipes/tags/${tag}`} key={i}>
-            <span className='bg-gray-200 text-gray-500 rounded-xl p-1 text-sm'>
+        <Link href={`/recipes/tags/${tag}`} key={i} className='mb-2 group'>
+            <span className='bg-gray-300 text-gray-600 rounded-xl p-1 text-sm group-hover:bg-white group-hover:text-black border group-hover:border-gray-300 transition duration-500'>
                     {tag}
                 </span>
         </Link>
