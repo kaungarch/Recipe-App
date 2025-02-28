@@ -19,6 +19,7 @@ export default async function Home({searchParams}: { searchParams: SearchParams 
     return (
         <div
             className='flex-col font-[family-name:var(--font-poppins)] pt-20 overflow-x-hidden w-full h-full pb-5 flex justify-center'>
+
             <Recipes recipes={recipes}/>
             <div className='w-full h-fit pb-10 pt-5'>
                 <Paginator total={result.total} skip={result.skip}/>
@@ -26,3 +27,4 @@ export default async function Home({searchParams}: { searchParams: SearchParams 
         </div>
     );
 }
+

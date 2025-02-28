@@ -1,11 +1,9 @@
 import {instance} from "@/lib/axiosLib";
 import {RECIPE} from "@/model/schema";
-import {cn} from "@/lib/utils";
 import Image from 'next/image'
-import {ChefHat, Clock, Flame, UsersRound} from "lucide-react";
-import {ReactNode} from "react";
+import {ChefHat, Clock,  Globe, LucideIcon,  Star, Tags, UsersRound} from "lucide-react";
 import Link from 'next/link'
-import {ScrollArea} from "@/components/ui/scroll-area";
+import {Separator} from "@/components/ui/separator";
 
 type Props = {
     params: {
@@ -23,70 +21,38 @@ const page = async ({params}: Props) => {
 
     return (
         <div
-            className='flex flex-col gap-y-3 justify-center items-center pt-20 lg:px-10 px-3 font-[family-name:var(--font-poppins)]'>
-            {/* header */}
-            <div className='flex w-full h-full'>
-                <h1 className='font-bold text-lg sm:text-xl xl:text-3xl'>
-                    {recipe.name}
-                </h1>
+            className='flex flex-col gap-y-3 justify-center items-center pt-20 lg:px-20 px-3 font-[family-name:var(--font-poppins)]'>
+
+            {/* image */}
+            <div
+                className='relative flex w-full aspect-[3/4] min-[400px]:aspect-[3/2] md:aspect-[3/1] rounded-lg bg-zinc-200 overflow-hidden'>
+                <Image src={recipe.image} alt={recipe.name} className='object-cover w-full' fill/>
             </div>
 
-            {/* body */}
-            <div className='flex flex-col w-full h-full gap-x-3 xl:gap-x-10 max-sm:gap-y-3'>
-                {/* section one */}
-                <div className='flex flex-col sm:flex-row sm:gap-x-5'>
-                    {/* image & icons */}
-                    <div className='w-fit max-sm:w-full h-full flex flex-col items-center gap-y-3 max-sm:gap-y-5'>
-                        {/* image */}
-                        <div
-                            className='relative max-sm:aspect-square max-sm:rounded-full w-[300px] h-[300px] 2xl:w-[500px] 2xl:h-[450px] rounded-lg overflow-hidden bg-gray-200 max-sm:outline outline-primary outline-offset-4'>
-                            <Image src={recipe.image}
-                                   alt={recipe.name}
-                                   className='object-cover'
-                                   fill
-                            />
-                        </div>
-                        {/* icons */}
-                        <div className='grid grid-cols-4 w-full h-full gap-1'>
-                            <Icon title={'Preparation'} icon={<Clock className='w-5 h-5 text-black'/>}
-                                  value={recipe.prepTimeMinutes}/>
-                            <Icon title={'Cook'} icon={<Flame className='w-5 h-5 text-black'/>}
-                                  value={recipe.cookTimeMinutes}/>
-                            <Icon title={"Serves"} icon={<UsersRound className='w-5 h-5 text-black'/>}
-                                  value={recipe.servings}/>
-                            <Icon title='Difficulty' icon={<ChefHat className='w-5 h-5 text-black'/>}
-                                  value={<span className={cn('px-2 py-1 rounded-lg', {
-                                      'bg-teal-300 text-teal-600': recipe.difficulty === 'Easy',
-                                      'bg-yellow-300 text-yellow-600': recipe.difficulty === 'Medium',
-                                      'bg-rose-300 text-rose-600': recipe.difficulty === 'Hard',
-                                  })}>
-                                                        {recipe.difficulty}
-                                                        </span>}/>
+            {/* icons */}
+            <div className='grid md:grid-cols-2 xl:grid-cols-5 w-full h-fit py-5'>
+                <Icons title={'Cuisine'} value={recipe.cuisine} Icon={Globe}/>
+                <Icons title={'Servings'} value={recipe.servings} Icon={UsersRound}/>
+                <Icons title={'Prep Time'} value={recipe.prepTimeMinutes} Icon={Clock}/>
+                <Icons title={'Cook Time'} value={recipe.cookTimeMinutes} Icon={ChefHat}/>
+                <Icons title={'Difficulty'} value={recipe.difficulty} Icon={Star}/>
+            </div>
 
-                        </div>
-                    </div>
+            <Separator className='bg-zinc-200 border-1'/>
 
-                    {/* ingredients & snacks */}
-                    <Ingredients ingredients={recipe.ingredients}/>
+            {/* tags */}
+            <div className='w-full flex'>
+                <RecipeTags tags={recipe.tags}/>
+            </div>
 
-                </div>
+            {/* ingredients */}
+            <div className='w-full flex rounded-xl shadow-2xl px-10 py-5'>
+                <Ingredients ingredients={recipe.ingredients}/>
+            </div>
 
-                {/* section two */}
-                <div className='flex flex-col mt-5 gap-y-3'>
-                    {/* tags */}
-                    <div className='flex flex-wrap gap-x-2'>
-                        <div>
-                            <p>Tags:</p>
-                        </div>
-                        <div className='flex flex-wrap gap-x-2'><Tags tags={recipe.tags}/></div>
-                    </div>
-
-                    {/* instructions */}
-                    <ScrollArea
-                        className='flex-1 w-full h-5 max-sm:h-[300px] py-3 pl-3 rounded-lg border border-gray-200'>
-                        <Timeline instructions={recipe.instructions}/>
-                    </ScrollArea>
-                </div>
+            {/* instructions */}
+            <div className='flex w-full mt-3 sm:mt-5'>
+                <Instructions instructions={recipe.instructions} />
             </div>
         </div>
     )
@@ -94,73 +60,90 @@ const page = async ({params}: Props) => {
 
 export default page;
 
-const Timeline = ({instructions}: {
-    instructions: string[]
-}) => {
-    return (<div className='w-full h-fit'>
-        {
-            instructions.map((instruction, index) => {
-                const isLastInstruction = index === instructions.length - 1;
-                return (
-                    <div key={index} className='flex gap-x-3 group'>
-                        <div className='flex flex-col items-center'>
-                        <span
-                            className='flex w-8 h-8 md:w-14 md:h-14 rounded-full shadow-2xl bg-primary font-bold justify-center items-center group-hover:bg-white group-hover:border border-primary transition duration-700'>
-                            {index + 1}
-                        </span>
-                            {
-                                isLastInstruction ? null :
-                                    <span className='block w-[1px] h-12 border-l-2 border-dashed border-primary'></span>
-                            }
-                        </div>
-                        <div className='pt-1 md:pt-3 lg:text-lg md:text-sm text-xs'>
-                            {instruction}
-                        </div>
-                    </div>
-                )
-            })
-        }
-    </div>)
-}
-
-const Icon = ({title, icon, value}: {
+const Icons = ({title, value, Icon}: {
     title: string,
-    icon: ReactNode
-    value: string | number | ReactNode
+    value: string | number,
+    Icon: LucideIcon
 }) => {
-    return (<div
-            className='grid w-full justify-center flex-col text-sm max-sm:text-xs rounded-md border-2 gap-y-1 py-3 border-gray-200'>
-            <div className='w-full flex justify-center'><span className='flex w-fit'>{icon}</span></div>
-            <div className='flex w-full justify-center'><span className='flex w-fit truncate'>{title}</span></div>
-            <div className='flex w-full justify-center'><span className='flex w-fit text-md'>{value}</span></div>
+
+    const modifiedValue = typeof value === 'number' && value === 0 ? "-" : value;
+
+    return (
+        <div className='grid col-span-1'>
+            <div className='flex py-3 gap-x-3'>
+                <span
+                    className='bg-primary/10 flex justify-center items-center max-sm:w-10 max-sm:h-10 w-14 h-14 rounded-full'>
+                    <Icon className='w-5 h-5 text-orange-400'/>
+                </span>
+                <div className='flex flex-col gap-y-1'>
+                    <span className='font-semibold max-sm:text-sm text-lg'>{title}</span>
+                    <span className='max-sm:text-xs'>{modifiedValue}</span>
+                </div>
+            </div>
         </div>
     )
 }
 
-const Tags = ({tags}: { tags: string[] }) => {
-
-    return tags.map((tag, i) => (
-        <Link href={`/recipes/tags/${tag}`} key={i} className='mb-2 group'>
-            <span
-                className='bg-gray-300 text-gray-600 rounded-xl p-1 text-sm group-hover:bg-white group-hover:text-black border group-hover:border-gray-300 transition duration-500'>
-                    {tag}
-                </span>
-        </Link>
-    ))
+const Ingredients = ({ingredients}: { ingredients: string[] }) => {
+    return (
+        <div className='w-full flex flex-col gap-y-3'>
+            <span>
+                <h2 className='max-sm:text-lg text-3xl font-bold'>Ingredients</h2>
+            </span>
+            <ul className='flex flex-col gap-y-2'>
+                {
+                    ingredients.map((ingredient, i) => (
+                        <li key={i} className='max-sm:text-xs text-lg text-zinc-500'>
+                            {ingredient}
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    )
 }
 
-const Ingredients = ({ingredients}: { ingredients: string[] }) => {
+const Instructions = ({instructions}: { instructions: string[] }) => {
+    return (
+        <div className='w-full flex flex-col gap-y-3'>
+            <span>
+                <h2 className='font-bold text-xl sm:text-3xl lg:text-4xl'>Cooking <span className='text-orange-400'>Instructions</span></h2>
+            </span>
 
-    return <div className='max-sm:mt-5 ml-5'>
-        <ol start={1}>
-            {
-                ingredients.map((ingredient, i) => (
-                    <li type={'1'} key={i}>
-                        {ingredient}
-                    </li>
-                ))
-            }
-        </ol>
-    </div>
+            <ul className='flex flex-col gap-y-3'>
+                {
+                    instructions.map((instruction, i) => {
+                        const index = i < 10 ? '0'+i : i
+                        return( <li key={i} className='w-full flex max-sm:text-xs text-lg p-5 gap-x-3 bg-zinc-100 text-zinc-500'>
+                            <span className='text-sm sm:text-lg lg:text-4xl font-semibold text-orange-400'>{index}</span>
+                            <span>{instruction}</span>
+                        </li>)
+                    })
+                }
+            </ul>
+        </div>
+    )
+}
 
+const RecipeTags = ({tags}: { tags: string[] }) => {
+    return (
+        <div className='flex flex-col w-full gap-y-5'>
+            <span className={'flex'}>
+                <Tags className='max-sm:w-5 max-sm:h-5 w-8 h-8 text-black'/>
+                <span className='font-semibold max-sm:text-xs ml-3'>Tags</span>
+            </span>
+            <ul className='w-full flex flex-wrap gap-x-3'>
+                {
+                    tags.map((tag, i) => (
+                        <Link href={`/recipes/tags/${tag}`} key={i}>
+                            <li key={i}
+                                className='px-2 py-1 rounded-full bg-zinc-200 text-zinc-500 max-sm:text-xs text-sm'>
+                                {tag}
+                            </li>
+                        </Link>
+                    ))
+                }
+            </ul>
+        </div>
+    )
 }

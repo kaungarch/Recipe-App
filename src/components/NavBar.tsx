@@ -1,7 +1,5 @@
 'use client'
 import {Input} from "@/components/ui/input";
-import {AspectRatio} from "@/components/ui/aspect-ratio";
-import Image from "next/image";
 import Link from "next/link";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {Search} from "lucide-react";
@@ -21,14 +19,14 @@ export const NavBar = () => {
     return (
 
         <nav
-            className={'fixed flex w-full 2xl:px-20 lg:px-36 md:px-20 px-5 shadow-lg justify-between py-3 font-[family-name:var(--font-poppins)] z-10 bg-white/70 backdrop-blur-lg'}>
+            className={'fixed flex w-full 2xl:px-20 lg:px-36 md:px-20 px-5 justify-between py-3 font-[family-name:var(--font-poppins)] z-10 bg-white/70 backdrop-blur-lg'}>
 
             <Link href='/recipes'>
                 <div className='flex items-center'>
-                    <div className='w-10 sm:w-20'>
-                        <AspectRatio ratio={5 / 3} className='bg-gray-200'>
-                            <Image src={'/favicon.ico'} alt={'logo'} fill/>
-                        </AspectRatio>
+                    <div className='flex w-fit justify-center'>
+                       <h1 className='text-lg sm:text-xl lg:text-2xl font-bold'>
+                           Yum<span className='text-orange-400'>Book</span>
+                       </h1>
                     </div>
                 </div>
             </Link>
