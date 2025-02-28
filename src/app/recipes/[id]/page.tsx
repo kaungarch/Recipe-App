@@ -31,37 +31,48 @@ const page = async ({params}: Props) => {
                 </h1>
             </div>
 
-            <div className='flex max-sm:flex-col w-full h-full gap-x-3 xl:gap-x-10 max-sm:gap-y-3'>
-                {/* image & icons */}
-                <div className='w-fit max-sm:w-full h-full flex flex-col items-center gap-y-3 max-sm:gap-y-5'>
-                    <div
-                        className='relative max-sm:w-full w-[300px] h-[300px] 2xl:w-[500px] 2xl:h-[450px] rounded-lg overflow-hidden bg-gray-200'>
-                        <Image src={recipe.image}
-                               alt={recipe.name}
-                               className='object-cover'
-                               fill
-                        />
-                    </div>
-                    {/* icons */}
-                    <div className='grid grid-cols-4 w-full h-full gap-1'>
-                        <Icon title={'Preparation'} icon={<Clock className='w-5 h-5 text-black'/>}
-                              value={recipe.prepTimeMinutes}/>
-                        <Icon title={'Cook'} icon={<Flame className='w-5 h-5 text-black'/>}
-                              value={recipe.cookTimeMinutes}/>
-                        <Icon title={"Serves"} icon={<UsersRound className='w-5 h-5 text-black'/>}
-                              value={recipe.servings}/>
-                        <Icon title='Difficulty' icon={<ChefHat className='w-5 h-5 text-black'/>}
-                              value={<span className={cn('px-2 py-1 rounded-lg', {
-                                  'bg-teal-300 text-teal-600': recipe.difficulty === 'Easy',
-                                  'bg-yellow-300 text-yellow-600': recipe.difficulty === 'Medium',
-                                  'bg-rose-300 text-rose-600': recipe.difficulty === 'Hard',
-                              })}>
-                                        {recipe.difficulty}
-                                        </span>}/>
+            {/* body */}
+            <div className='flex flex-col w-full h-full gap-x-3 xl:gap-x-10 max-sm:gap-y-3'>
+                {/* section one */}
+                <div className='flex flex-col sm:flex-row sm:gap-x-5'>
+                    {/* image & icons */}
+                    <div className='w-fit max-sm:w-full h-full flex flex-col items-center gap-y-3 max-sm:gap-y-5'>
+                        {/* image */}
+                        <div
+                            className='relative max-sm:aspect-square max-sm:rounded-full w-[300px] h-[300px] 2xl:w-[500px] 2xl:h-[450px] rounded-lg overflow-hidden bg-gray-200 max-sm:outline outline-primary outline-offset-4'>
+                            <Image src={recipe.image}
+                                   alt={recipe.name}
+                                   className='object-cover'
+                                   fill
+                            />
+                        </div>
+                        {/* icons */}
+                        <div className='grid grid-cols-4 w-full h-full gap-1'>
+                            <Icon title={'Preparation'} icon={<Clock className='w-5 h-5 text-black'/>}
+                                  value={recipe.prepTimeMinutes}/>
+                            <Icon title={'Cook'} icon={<Flame className='w-5 h-5 text-black'/>}
+                                  value={recipe.cookTimeMinutes}/>
+                            <Icon title={"Serves"} icon={<UsersRound className='w-5 h-5 text-black'/>}
+                                  value={recipe.servings}/>
+                            <Icon title='Difficulty' icon={<ChefHat className='w-5 h-5 text-black'/>}
+                                  value={<span className={cn('px-2 py-1 rounded-lg', {
+                                      'bg-teal-300 text-teal-600': recipe.difficulty === 'Easy',
+                                      'bg-yellow-300 text-yellow-600': recipe.difficulty === 'Medium',
+                                      'bg-rose-300 text-rose-600': recipe.difficulty === 'Hard',
+                                  })}>
+                                                        {recipe.difficulty}
+                                                        </span>}/>
 
+                        </div>
                     </div>
+
+                    {/* ingredients & snacks */}
+                    <Ingredients ingredients={recipe.ingredients}/>
+
                 </div>
-                <div className='flex flex-col gap-y-3'>
+
+                {/* section two */}
+                <div className='flex flex-col mt-5 gap-y-3'>
                     {/* tags */}
                     <div className='flex flex-wrap gap-x-2'>
                         <div>
@@ -69,6 +80,7 @@ const page = async ({params}: Props) => {
                         </div>
                         <div className='flex flex-wrap gap-x-2'><Tags tags={recipe.tags}/></div>
                     </div>
+
                     {/* instructions */}
                     <ScrollArea
                         className='flex-1 w-full h-5 max-sm:h-[300px] py-3 pl-3 rounded-lg border border-gray-200'>
@@ -129,9 +141,26 @@ const Tags = ({tags}: { tags: string[] }) => {
 
     return tags.map((tag, i) => (
         <Link href={`/recipes/tags/${tag}`} key={i} className='mb-2 group'>
-            <span className='bg-gray-300 text-gray-600 rounded-xl p-1 text-sm group-hover:bg-white group-hover:text-black border group-hover:border-gray-300 transition duration-500'>
+            <span
+                className='bg-gray-300 text-gray-600 rounded-xl p-1 text-sm group-hover:bg-white group-hover:text-black border group-hover:border-gray-300 transition duration-500'>
                     {tag}
                 </span>
         </Link>
     ))
+}
+
+const Ingredients = ({ingredients}: { ingredients: string[] }) => {
+
+    return <div className='max-sm:mt-5 ml-5'>
+        <ol start={1}>
+            {
+                ingredients.map((ingredient, i) => (
+                    <li type={'1'} key={i}>
+                        {ingredient}
+                    </li>
+                ))
+            }
+        </ol>
+    </div>
+
 }

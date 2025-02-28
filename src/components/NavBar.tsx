@@ -27,7 +27,7 @@ export const NavBar = () => {
                 <div className='flex items-center'>
                     <div className='w-10 sm:w-20'>
                         <AspectRatio ratio={5 / 3} className='bg-gray-200'>
-                            <Image src={'/logo.png'} alt={'logo'} fill/>
+                            <Image src={'/favicon.ico'} alt={'logo'} fill/>
                         </AspectRatio>
                     </div>
                 </div>
